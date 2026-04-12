@@ -1,0 +1,18 @@
+name = "telemetry-dashboard"
+main = "src/worker/index.ts"
+compatibility_date = "2026-04-12"
+
+[vars]
+# GITHUB_CLIENT_ID = "your_github_client_id"
+# GITHUB_CLIENT_SECRET = "your_github_client_secret"
+# SESSION_SECRET = "some_random_secret"
+# ALLOWED_GITHUB_USERNAMES = "user1,user2"
+TELEMETRY_SINK_URL = "https://anon-telemetry-sink.seemueller.workers.dev"
+# TELEMETRY_SINK_AUTH = "user:password"
+
+# ── Dev environment ──────────────────────────────────────────────────
+[env.dev]
+name = "telemetry-dashboard-dev"
+
+[env.dev.vars]
+TELEMETRY_SINK_URL = "https://anon-telemetry-sink-dev.seemueller.workers.dev"

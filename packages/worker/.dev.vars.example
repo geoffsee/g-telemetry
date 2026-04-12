@@ -1,0 +1,2 @@
+# Basic Auth credentials (format user:password)
+BASIC_AUTH=admin:password

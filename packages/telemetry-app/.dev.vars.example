@@ -1,0 +1,16 @@
+# GitHub OAuth Credentials
+GITHUB_CLIENT_ID=your_github_client_id
+GITHUB_CLIENT_SECRET=your_github_client_secret
+
+# Random string for session encryption
+SESSION_SECRET=some_random_secret
+
+# Optional: Comma-separated list of GitHub usernames allowed to access the dashboard
+ALLOWED_GITHUB_USERNAMES=user1,user2
+
+# Basic Auth credentials to access the telemetry sink (must match BASIC_AUTH in worker)
+TELEMETRY_SINK_AUTH=admin:password
+
+# URL of the telemetry sink. 
+# For local development with wrangler dev in packages/worker, use http://localhost:8787
+TELEMETRY_SINK_URL=http://localhost:8787

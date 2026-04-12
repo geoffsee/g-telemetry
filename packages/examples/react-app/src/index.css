@@ -1,0 +1,87 @@
+:root {
+  font-family: system-ui, -apple-system, sans-serif;
+  line-height: 1.5;
+  color: #1a1a1a;
+  background: #fafafa;
+}
+
+body {
+  margin: 0;
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+}
+
+.app {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+h1 {
+  font-size: 1.8em;
+  margin-bottom: 0.25em;
+}
+
+.subtitle {
+  color: #666;
+  margin-bottom: 1.5em;
+}
+
+code {
+  background: #eee;
+  padding: 0.15em 0.4em;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #fff;
+  cursor: pointer;
+  font-size: 0.9em;
+}
+
+button:hover {
+  background: #f0f0f0;
+}
+
+.event-log {
+  background: #1a1a2e;
+  color: #eee;
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  font-family: monospace;
+  font-size: 0.85em;
+}
+
+.event-log h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1em;
+  color: #aaa;
+}
+
+.event-log ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.event-log li {
+  padding: 0.2em 0;
+  border-bottom: 1px solid #2a2a3e;
+}
+
+.event-log .empty {
+  color: #666;
+  margin: 0;
+}
