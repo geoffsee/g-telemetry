@@ -1,16 +1,22 @@
 {
-  "name": "g-telemetry",
-  "module": "index.ts",
-  "type": "module",
-  "private": true,
-  "workspaces": [
-    "packages/*",
-    "packages/examples/*"
-  ],
-  "devDependencies": {
-    "@types/bun": "latest"
-  },
-  "peerDependencies": {
-    "typescript": "^5"
-  }
+	"name": "g-telemetry",
+	"module": "index.ts",
+	"type": "module",
+	"private": true,
+	"workspaces": [
+		"packages/*",
+		"packages/examples/*"
+	],
+	"devDependencies": {
+		"@biomejs/biome": "2.4.11",
+		"@types/bun": "latest"
+	},
+	"scripts": {
+		"format": "biome format --write .",
+		"lint": "biome lint .",
+		"check": "biome check --write ."
+	},
+	"peerDependencies": {
+		"typescript": "^5"
+	}
 }

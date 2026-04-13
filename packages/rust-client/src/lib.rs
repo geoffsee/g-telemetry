@@ -40,8 +40,8 @@ impl TelemetryClient {
 
         // Check if telemetry is disabled via environment variables
         let dnt = env::var("DO_NOT_TRACK").unwrap_or_default() == "1";
-        let app_no_telemetry = env::var(format!("{}_NO_TELEMETRY", app_id.to_uppercase()))
-            .unwrap_or_default() == "1";
+        let app_no_telemetry =
+            env::var(format!("{}_NO_TELEMETRY", app_id.to_uppercase())).unwrap_or_default() == "1";
         let enabled = !dnt && !app_no_telemetry;
 
         let instance_id = Self::get_or_create_instance_id(&app_id);
@@ -49,7 +49,7 @@ impl TelemetryClient {
         let platform = env::consts::OS.to_string();
 
         let (tx, mut rx) = mpsc::unbounded_channel::<TelemetryEvent>();
-        
+
         let client = Arc::new(Self {
             app_id: app_id.clone(),
             instance_id,
@@ -120,7 +120,7 @@ impl TelemetryClient {
         for event in buffer.drain(..) {
             // The worker expects a single event for now per /v1/events
             // If the worker supports batches, we could send it as a batch.
-            // But the prompt says "accept POST requests to /v1/events with a JSON body containing...". 
+            // But the prompt says "accept POST requests to /v1/events with a JSON body containing...".
             // It didn't mention an array. So we send one by one.
             let _ = client.post(endpoint).json(&event).send().await;
         }
