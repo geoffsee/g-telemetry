@@ -128,7 +128,7 @@ export default function Page() {
 	return (
 		<>
 			<h1>Verify Telemetry Pipeline</h1>
-			<p style={{ color: "#666" }}>
+			<p style={{ color: "#8b949e" }}>
 				Test the end-to-end flow: worker health, event ingestion, and data
 				retrieval.
 			</p>
@@ -155,7 +155,7 @@ export default function Page() {
 			</div>
 
 			{eventCount > 0 && (
-				<p style={{ fontSize: "0.9em", color: "#666" }}>
+				<p style={{ fontSize: "0.9em", color: "#8b949e" }}>
 					Events sent this session: {eventCount}
 				</p>
 			)}
@@ -189,8 +189,8 @@ export default function Page() {
 					<h3>Log</h3>
 					<div
 						style={{
-							background: "#1a1a2e",
-							color: "#eee",
+							background: "#161b22",
+							color: "#e6edf3",
 							padding: 16,
 							borderRadius: 6,
 							fontSize: "0.85em",
@@ -201,7 +201,7 @@ export default function Page() {
 					>
 						{log.map((entry, i) => (
 							<div key={i} style={{ marginBottom: 4 }}>
-								<span style={{ color: "#888" }}>{entry.time}</span>{" "}
+								<span style={{ color: "#8b949e" }}>{entry.time}</span>{" "}
 								<span style={{ color: entry.ok ? "#4ade80" : "#f87171" }}>
 									{entry.ok ? "OK" : "ERR"}
 								</span>{" "}
@@ -238,11 +238,16 @@ function Button({
 			disabled={status === "loading"}
 			style={{
 				padding: "8px 16px",
-				border: "1px solid #ccc",
+				border: "1px solid #30363d",
 				borderRadius: 4,
 				cursor: status === "loading" ? "wait" : "pointer",
+				color: "#e6edf3",
 				background:
-					status === "ok" ? "#dcfce7" : status === "error" ? "#fee2e2" : "#fff",
+					status === "ok"
+						? "#1a3a2a"
+						: status === "error"
+							? "#3d1f1f"
+							: "#21262d",
 			}}
 		>
 			{label}
@@ -254,10 +259,10 @@ function Button({
 const thStyle: React.CSSProperties = {
 	textAlign: "left",
 	padding: "6px 16px 6px 0",
-	borderBottom: "1px solid #ddd",
+	borderBottom: "1px solid #30363d",
 };
 
 const tdStyle: React.CSSProperties = {
 	padding: "4px 16px 4px 0",
-	borderBottom: "1px solid #eee",
+	borderBottom: "1px solid #21262d",
 };

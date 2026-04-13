@@ -2,6 +2,9 @@ name = "telemetry-dashboard"
 main = "src/worker/index.ts"
 compatibility_date = "2026-04-12"
 
+[assets]
+directory = "dist/client"
+
 [vars]
 # GITHUB_CLIENT_ID = "your_github_client_id"
 # GITHUB_CLIENT_SECRET = "your_github_client_secret"
@@ -16,3 +19,7 @@ name = "telemetry-dashboard-dev"
 
 [env.dev.vars]
 TELEMETRY_SINK_URL = "https://anon-telemetry-sink-dev.seemueller.workers.dev"
+
+[[env.dev.services]]
+binding = "TELEMETRY_SINK"
+service = "anon-telemetry-sink-dev"

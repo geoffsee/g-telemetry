@@ -1,4 +1,4 @@
-import { githubAuth } from "@hono/oauth-providers/github";
+import "../../dist/server/entry.mjs";
 import { Hono } from "hono";
 import { deleteCookie, getCookie, setCookie } from "hono/cookie";
 import { jwtVerify, SignJWT } from "jose";
@@ -11,6 +11,7 @@ type Bindings = {
 	ALLOWED_GITHUB_USERNAMES: string; // Comma-separated list
 	TELEMETRY_SINK_URL: string;
 	TELEMETRY_SINK_AUTH: string; // user:password for Basic Auth
+	TELEMETRY_SINK: { fetch: typeof fetch }; // Service binding to sink worker
 };
 
 const app = new Hono<{ Bindings: Bindings }>();
@@ -31,16 +32,53 @@ async function getSession(c: any) {
 }
 
 // --- GitHub Auth Routes ---
-app.use("/login/github", (c, next) => {
-	return githubAuth({
-		client_id: c.env.GITHUB_CLIENT_ID,
-		client_secret: c.env.GITHUB_CLIENT_SECRET,
-		scope: ["read:user"],
-	})(c, next);
-});
+app.get("/login/github", async (c) => {
+	const code = c.req.query("code");
 
-app.get("/login/github/callback", async (c) => {
-	const user = c.get("user-github") as any;
+	if (!code) {
+		// Redirect to GitHub OAuth
+		const params = new URLSearchParams({
+			client_id: c.env.GITHUB_CLIENT_ID,
+			redirect_uri: `${new URL(c.req.url).origin}/login/github`,
+			scope: "read:user",
+		});
+		return c.redirect(`https://github.com/login/oauth/authorize?${params}`);
+	}
+
+	// Exchange code for token
+	const tokenRes = await fetch("https://github.com/login/oauth/access_token", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+			Accept: "application/json",
+		},
+		body: JSON.stringify({
+			client_id: c.env.GITHUB_CLIENT_ID,
+			client_secret: c.env.GITHUB_CLIENT_SECRET,
+			code,
+		}),
+	});
+	const tokenData = (await tokenRes.json()) as any;
+	console.log("Token exchange status:", tokenRes.status);
+
+	if (!tokenData.access_token) {
+		console.log("Token error:", JSON.stringify(tokenData));
+		return c.text(
+			"GitHub login failed: " +
+				(tokenData.error_description || tokenData.error || "unknown"),
+			401,
+		);
+	}
+
+	// Fetch user info
+	const userRes = await fetch("https://api.github.com/user", {
+		headers: {
+			Authorization: `Bearer ${tokenData.access_token}`,
+			"User-Agent": "g-telemetry",
+		},
+	});
+	const user = (await userRes.json()) as any;
+
 	if (!user?.login) {
 		return c.text("GitHub login failed", 401);
 	}
@@ -92,7 +130,8 @@ app.all("/api/telemetry/*", async (c) => {
 	const headers = new Headers();
 	headers.set("Authorization", `Basic ${btoa(c.env.TELEMETRY_SINK_AUTH)}`);
 
-	const response = await fetch(url, {
+	const fetcher = c.env.TELEMETRY_SINK ?? globalThis.fetch;
+	const response = await fetcher.fetch(url, {
 		method: c.req.method,
 		headers,
 		body:
@@ -120,6 +159,10 @@ app.all("*", async (c) => {
 		);
 	}
 
+	if (c.env.TELEMETRY_SINK) {
+		(globalThis as any).__sinkFetch = (url: string, init?: RequestInit) =>
+			c.env.TELEMETRY_SINK.fetch(url, init);
+	}
 	const pageContextInit = {
 		urlOriginal: c.req.url,
 		user: session,

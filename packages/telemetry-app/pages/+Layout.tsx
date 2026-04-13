@@ -61,7 +61,7 @@ function Sidebar({ children }: { children: React.ReactNode }) {
 				display: "flex",
 				flexDirection: "column",
 				lineHeight: "1.8em",
-				borderRight: "2px solid #eee",
+				borderRight: "2px solid #30363d",
 			}}
 		>
 			{children}

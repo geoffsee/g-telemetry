@@ -1,6 +1,12 @@
-# Anon Telemetry
+# g-telemetry
 
 A generic, anonymous telemetry ingestion sink and client libraries for Rust and TypeScript/JS.
+
+![Dashboard - Applications](screenshots/dashboard.png)
+
+![Dashboard - App Detail](screenshots/app-detail.png)
+
+![Verify Pipeline](screenshots/verify-page.png)
 
 ## Features
 

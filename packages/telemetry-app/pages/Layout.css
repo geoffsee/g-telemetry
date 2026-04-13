@@ -14,9 +14,19 @@ a {
 body {
 	margin: 0;
 	font-family: sans-serif;
+	background-color: #0d1117;
+	color: #e6edf3;
 }
 * {
 	box-sizing: border-box;
+}
+
+/* Dark mode links */
+a {
+	color: #58a6ff;
+}
+#sidebar a.is-active {
+	background-color: #1f2937;
 }
 
 /* Page Transition Animation */

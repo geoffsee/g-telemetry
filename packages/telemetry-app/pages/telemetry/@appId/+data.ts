@@ -1,5 +1,4 @@
 import type { PageContextServer } from "vike/types";
-
 export type AppData = {
 	app_id: string;
 	by_event: { event_name: string; count: number }[];
@@ -13,7 +12,8 @@ export async function data(pageContext: PageContextServer): Promise<AppData> {
 	const { appId } = pageContext.routeParams;
 	const url = `${env.TELEMETRY_SINK_URL}/v1/stats/${appId}`;
 
-	const response = await fetch(url, {
+	const doFetch = (globalThis as any).__sinkFetch ?? fetch;
+	const response = await doFetch(url, {
 		headers: {
 			Authorization: `Basic ${btoa(env.TELEMETRY_SINK_AUTH)}`,
 		},

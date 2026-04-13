@@ -41,3 +41,4 @@ wrangler.resolved.toml
 CLAUDE.md
 target
 .wrangler
+.playwright-mcp
