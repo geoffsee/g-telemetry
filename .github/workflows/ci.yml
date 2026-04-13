@@ -36,6 +36,10 @@ jobs:
       - name: Install dependencies
         run: bun install
       - name: Typecheck
-        run: bun x tsc --noEmit
+        run: |
+          for pkg in packages/js-client packages/worker packages/telemetry-app packages/examples/react-app; do
+            echo "==> Checking $pkg..."
+            ./node_modules/.bin/tsc --noEmit -p "$pkg/tsconfig.json"
+          done
       - name: Run tests
         run: bun test
